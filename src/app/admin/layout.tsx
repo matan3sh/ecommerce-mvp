@@ -2,6 +2,25 @@ import { Nav, NavLink } from '@/components/Nav'
 
 export const dynamic = 'force-dynamic'
 
+const NAV_LINKS = [
+  {
+    href: '/admin',
+    label: 'Dashboard',
+  },
+  {
+    href: '/admin/products',
+    label: 'Products',
+  },
+  {
+    href: '/admin/users',
+    label: 'Customers',
+  },
+  {
+    href: '/admin/orders',
+    label: 'Sales',
+  },
+]
+
 export default function AdminLayout({
   children,
 }: Readonly<{
@@ -10,10 +29,11 @@ export default function AdminLayout({
   return (
     <>
       <Nav>
-        <NavLink href="/admin">Dashboard</NavLink>
-        <NavLink href="/admin/products">Products</NavLink>
-        <NavLink href="/admin/users">Customers</NavLink>
-        <NavLink href="/admin/orders">Sales</NavLink>
+        {NAV_LINKS.map(({ href, label }) => (
+          <NavLink key={href} href={href}>
+            {label}
+          </NavLink>
+        ))}
       </Nav>
       <div className="container my-6">{children}</div>
     </>
