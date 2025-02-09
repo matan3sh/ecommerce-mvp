@@ -16,8 +16,8 @@ export function ProductForm({ product }: { product?: Product | null }) {
     product == null ? addProduct : updateProduct.bind(null, product.id),
     {}
   )
-  const [priceInCents, setPriceInCents] = useState<number | undefined>(
-    product?.priceInCents
+  const [priceInCents, setPriceInCents] = useState<number>(
+    product?.priceInCents ?? 0
   )
 
   return (
@@ -41,7 +41,7 @@ export function ProductForm({ product }: { product?: Product | null }) {
           name="priceInCents"
           required
           value={priceInCents}
-          onChange={(e) => setPriceInCents(Number(e.target.value) || undefined)}
+          onChange={(e) => setPriceInCents(Number(e.target.value) || 0)}
         />
         <div className="text-muted-foreground">
           {formatCurrency((priceInCents || 0) / 100)}
