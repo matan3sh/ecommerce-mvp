@@ -1,11 +1,15 @@
 'use client'
 
+import {
+  deleteProduct,
+  toggleProductAvailability,
+} from '@/app/admin/_actions/products'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 
 export function ActiveToggleDropdownItem({
-  // id,
+  id,
   isAvailableForPurchase,
 }: {
   id: string
@@ -18,7 +22,7 @@ export function ActiveToggleDropdownItem({
       disabled={isPending}
       onClick={() => {
         startTransition(async () => {
-          // await toggleProductAvailability(id, !isAvailableForPurchase)
+          await toggleProductAvailability(id, !isAvailableForPurchase)
           router.refresh()
         })
       }}
@@ -29,7 +33,7 @@ export function ActiveToggleDropdownItem({
 }
 
 export function DeleteDropdownItem({
-  // id,
+  id,
   disabled,
 }: {
   id: string
@@ -39,11 +43,10 @@ export function DeleteDropdownItem({
   const router = useRouter()
   return (
     <DropdownMenuItem
-      // variant="destructive"
       disabled={disabled || isPending}
       onClick={() => {
         startTransition(async () => {
-          // await deleteProduct(id)
+          await deleteProduct(id)
           router.refresh()
         })
       }}
