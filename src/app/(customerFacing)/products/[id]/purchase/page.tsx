@@ -5,11 +5,12 @@ import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 
-export default async function PurchasePage({
-  params: { id },
-}: {
-  params: { id: string }
-}) {
+interface PurchasePageProps {
+  params: Promise<{ id: string }>
+}
+
+export default async function PurchasePage({ params }: PurchasePageProps) {
+  const { id } = await params
   const product = await db.product.findUnique({ where: { id } })
   if (product == null) return notFound()
 
