@@ -8,14 +8,16 @@ import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 
-export default async function SuccessPage({
+export default async function Page({
   searchParams,
 }: {
-  searchParams: { payment_intent: string }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const paymentIntent = await stripe.paymentIntents.retrieve(
-    searchParams.payment_intent
-  )
+  const params = await searchParams
+  const payment_intent = params.payment_intent
+  if (!payment_intent || Array.isArray(payment_intent)) return notFound()
+
+  const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent)
   if (paymentIntent.metadata.productId == null) return notFound()
 
   const product = await db.product.findUnique({
